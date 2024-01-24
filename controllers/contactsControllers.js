@@ -10,7 +10,7 @@ export const getAllContacts = async (req, res, next) => {
     res.status(200).json(allContacts);
 };
 
-export const getOneContact = async (error, req, res, next) => {
+export const getOneContact = async (req, res, next) => {
     const { id } = req.params;
     const contact = await contactsService.getContactById(id);
     if (contact) {
@@ -19,7 +19,7 @@ export const getOneContact = async (error, req, res, next) => {
     throw HttpError(404, error.message);
 };
 
-export const deleteContact = async (error, req, res, next) => {
+export const deleteContact = async (req, res, next) => {
     const { id } = req.params;
     const deleteContact = await contactsService.removeContact(id);
     if (deleteContact) {
@@ -28,7 +28,7 @@ export const deleteContact = async (error, req, res, next) => {
     throw HttpError(404, error.message); 
 };
 
-export const createContact = async (error, req, res, next) => {
+export const createContact = async (req, res, next) => {
     const { name, email, phone } = req.body;
     await createContactSchema.validateAsync({ name, email, phone });
 
@@ -39,7 +39,7 @@ export const createContact = async (error, req, res, next) => {
     throw HttpError(400, error.message);
 };
 
-export const updateContact = async (error, req, res, next) => {
+export const updateContact = async (req, res, next) => {
     const { id } = req.params;
     const data = req.body;
     
