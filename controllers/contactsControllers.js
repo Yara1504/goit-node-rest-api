@@ -36,7 +36,6 @@ export const createContact = async (req, res, next) => {
     if (addContact) {
         res.status(201).json(addContact);
     }
-    throw HttpError(400, error.message);
 };
 
 export const updateContact = async (req, res, next) => {
