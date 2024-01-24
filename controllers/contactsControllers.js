@@ -51,5 +51,4 @@ export const updateContact = async (req, res, next) => {
     if (updateContact) {
         res.status(200).json(updateContact);
     }
-    throw HttpError(404, error.message);
 };
