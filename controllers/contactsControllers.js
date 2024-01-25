@@ -1,8 +1,4 @@
 import contactsService from "../services/contactsServices.js";
-import {
-    createContactSchema,
-    updateContactSchema,
-} from "../schemas/contactsSchemas.js";
 import HttpError from "../helpers/HttpError.js";
 
 export const getAllContacts = async (req, res, next) => {
@@ -29,8 +25,10 @@ export const deleteContact = async (req, res, next) => {
 };
 
 export const createContact = async (req, res, next) => {
+    
+    const { name, email, phone } = req.body;
 
-    const newContact = await contactsService.addContact(req.body);
+    const newContact = await contactsService.addContact(name, email, phone);
     if (newContact) {
         res.json(newContact);
     }
