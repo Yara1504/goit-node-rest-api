@@ -2,40 +2,55 @@ import contactsService from "../services/contactsServices.js";
 import HttpError from "../helpers/HttpError.js";
 
 export const getAllContacts = async (req, res, next) => {
+    try {
     const allContacts = await contactsService.listContacts();
     res.json(allContacts);
+    } catch (error) {
+        next(error)
+    }
 };
 
 export const getOneContact = async (req, res, next) => {
+    try {
     const { id } = req.params;
     const contact = await contactsService.getContactById(id);
-    if (contact) {
-        res.json(contact);
+    if (!contact) {
+        throw HttpError(404);
     }
-    throw HttpError(404);
+    res.json(contact);
+    } catch (error) {
+        next(error)
+    }
 };
 
 export const deleteContact = async (req, res, next) => {
+    try {
     const { id } = req.params;
     const deleteContact = await contactsService.removeContact(id);
-    if (deleteContact) {
-        res.json(deleteContact);
+    if (!deleteContact) {
+        throw HttpError(404); 
     }
-    throw HttpError(404); 
+    res.json(deleteContact);
+    } catch (error) {
+        next(error) 
+    }
 };
 
 export const createContact = async (req, res, next) => {
-    
+    try {
     const { name, email, phone } = req.body;
-
     const newContact = await contactsService.addContact(name, email, phone);
     if (newContact) {
         res.json(newContact);
     }
     throw HttpError(400);
+    } catch (error) {
+        next(error)
+    }
 };
 
 export const updateContact = async (req, res, next) => {
+    try {
     const { id } = req.params;
     const data = req.body;
     
@@ -46,5 +61,8 @@ export const updateContact = async (req, res, next) => {
     const changeContact = await contactsService.updateContact(id, data);
     if (updateContact) {
         res.json(changeContact);
+    }
+    } catch (error) {
+        next(error)
     }
 };
