@@ -38,16 +38,16 @@ export const deleteContact = async (req, res, next) => {
 
 export const createContact = async (req, res, next) => {
     try {
-    const { name, email, phone } = req.body;
-    const newContact = await contactsService.addContact(name, email, phone);
-    if (newContact) {
-        res.json(newContact);
-    }
-    throw HttpError(400);
+        const { name, email, phone } = req.body;
+        const newContact = await contactsService.addContact(name, email, phone);
+        if (newContact) {
+            res.status(201).json(newContact);
+        }
+        throw HttpError(400, error.message);
     } catch (error) {
         next(error)
     }
-};
+}
 
 export const updateContact = async (req, res, next) => {
     try {
@@ -55,14 +55,17 @@ export const updateContact = async (req, res, next) => {
     const data = req.body;
     
     if (Object.keys(data).length === 0) {
-        res.json({ "message": "Body must have at least one field" });
+        res.status(400).json({ "message": "Body must have at least one field" });
     }
 
     const changeContact = await contactsService.updateContact(id, data);
-    if (updateContact) {
-        res.json(changeContact);
-    }
+    if (changeContact) {
+        res.status(200).json(changeContact);
+        }else {
+            throw HttpError(404, "Not found");
+        }
     } catch (error) {
         next(error)
     }
 };
+    
