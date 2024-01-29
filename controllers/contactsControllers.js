@@ -1,5 +1,6 @@
 import contactsService from "../services/contactsServices.js";
 import HttpError from "../helpers/HttpError.js";
+import { Contact } from "../models/contacts.js"
 
 export const getAllContacts = async (req, res, next) => {
     try {
@@ -69,3 +70,21 @@ export const updateContact = async (req, res, next) => {
     }
 };
     
+export const updateStatusContact = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const data = req.body;
+        const favoriteContact = await contactsService.updateContact(id, data, { new: true });
+
+    if (favoriteContact) {
+        res.status(200).json(favoriteContact);
+        }else {
+            throw HttpError(404, "Not found");
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+

@@ -53,7 +53,7 @@ async function updateContact(contactId, data) {
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null));
   return contacts[index];
 };
-
+  
 const contacts = {
   listContacts,
   getContactById,
@@ -63,3 +63,5 @@ const contacts = {
 };
 
 export default contacts;
+
+
