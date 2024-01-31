@@ -4,17 +4,18 @@ import { Contact } from "../models/contacts.js"
 
 export const getAllContacts = async (req, res, next) => {
     try {
-    const allContacts = await contactsService.listContacts();
-    res.json(allContacts);
+    const allContacts = await Contact.find();
+        res.json(allContacts);
+        console.log("successful");
     } catch (error) {
         next(error)
-    }
+}
 };
 
 export const getOneContact = async (req, res, next) => {
     try {
     const { id } = req.params;
-    const contact = await contactsService.getContactById(id);
+    const contact = await Contact.findById(id);
     if (!contact) {
         throw HttpError(404);
     }
@@ -27,7 +28,7 @@ export const getOneContact = async (req, res, next) => {
 export const deleteContact = async (req, res, next) => {
     try {
     const { id } = req.params;
-    const deleteContact = await contactsService.removeContact(id);
+    const deleteContact = await Contact.findByIdAndDelete(id);
     if (!deleteContact) {
         throw HttpError(404); 
     }
@@ -40,7 +41,7 @@ export const deleteContact = async (req, res, next) => {
 export const createContact = async (req, res, next) => {
     try {
         const { name, email, phone } = req.body;
-        const newContact = await contactsService.addContact(name, email, phone);
+        const newContact = await Contact.create(name, email, phone);
         if (newContact) {
             res.status(201).json(newContact);
         }
@@ -59,7 +60,7 @@ export const updateContact = async (req, res, next) => {
         res.status(400).json({ "message": "Body must have at least one field" });
     }
 
-    const changeContact = await contactsService.updateContact(id, data);
+    const changeContact = await Contact.findByIdAndUpdate(id, data);
     if (changeContact) {
         res.status(200).json(changeContact);
         }else {
@@ -74,7 +75,7 @@ export const updateStatusContact = async (req, res, next) => {
     try {
         const { id } = req.params;
         const data = req.body;
-        const favoriteContact = await contactsService.updateContact(id, data, { new: true });
+        const favoriteContact = await Contact.findByIdAndUpdate(id, data, { new: true });
 
     if (favoriteContact) {
         res.status(200).json(favoriteContact);
