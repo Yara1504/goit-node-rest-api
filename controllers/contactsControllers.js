@@ -41,15 +41,16 @@ export const deleteContact = async (req, res, next) => {
 export const createContact = async (req, res, next) => {
     try {
         const { name, email, phone } = req.body;
-        const newContact = await Contact.create(name, email, phone);
+        const newContact = await Contact.create({ name, email, phone });
         if (newContact) {
             res.status(201).json(newContact);
+        } else {
+            throw new HttpError(400, error.message);
         }
-        throw HttpError(400, error.message);
     } catch (error) {
         next(error)
     }
-}
+};
 
 export const updateContact = async (req, res, next) => {
     try {
