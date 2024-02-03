@@ -5,7 +5,7 @@ import path from "path";
 const contactsPath = path.join('db', 'contacts.json')
 
 async function listContacts() {
-    const data = await fs.readFile(contactsPath);
+    const data = await fs.readFile(contactsPath, JSON.stringify(contacts, null));
     return JSON.parse(data);
 }
 
@@ -36,7 +36,7 @@ async function addContact(name, email, phone) {
     phone
   }
   contacts.push(newContact);
-  await fs.writeFile(contactsPath, contacts);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null));
   return newContact;
 }
 
