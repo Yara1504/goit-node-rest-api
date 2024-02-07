@@ -11,8 +11,8 @@ import {
   createContactSchema,
   updateContactSchema,
 } from "../schemas/contactsSchemas.js";
-import validateBody from "../helpers/validateBody.js"
-import { validId } from "../helpers/validId.js";
+import validateBody from "../middlewares/validateBody.js"
+import { validId } from "../middlewares/validId.js";
 
 const contactsRouter = express.Router();
 
