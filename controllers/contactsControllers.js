@@ -3,9 +3,8 @@ import { Contact } from "../models/contacts.js"
 
 export const getAllContacts = async (req, res, next) => {
     try {
-    const allContacts = await Contact.find();
+        const allContacts = await Contact.find();
         res.json(allContacts);
-        console.log("successful");
     } catch (error) {
         next(error)
 }
@@ -73,10 +72,13 @@ export const updateContact = async (req, res, next) => {
     
 export const updateStatusContact = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const data = req.body;
-        const favoriteContact = await Contact.findByIdAndUpdate(id, data, { new: true });
+        const { id } = req.params; 
+        const favoriteContact = await Contact.findByIdAndUpdate(id, req.body, { new: true });
 
+        if (Object.keys(req.body).length === 0) {
+            throw HttpError(400, "Request body is missing");
+        }
+        
     if (favoriteContact) {
         res.status(200).json(favoriteContact);
         }else {
