@@ -17,12 +17,11 @@ const authRouter = express.Router();
 
 authRouter.post("/register", validateBody(schema.registerSchema), register);
 authRouter.get("/verify/:verificationToken", verifyEmail);
-authRouter.post("/verify", verifyEmail, validateBody(schema.emailSchema), resendVerifyEmail);
+authRouter.post("/verify", validateBody(schema.emailSchema), resendVerifyEmail);
 authRouter.post("/login", validateBody(schema.loginSchema), login);
 authRouter.get("/current", authenticate, getCurrent);
 authRouter.post("/logout", authenticate, logout);
 authRouter.patch("/avatars", authenticate, upload.single("avatar"), updateAvatar);
 
-
-
 export default authRouter;
+
